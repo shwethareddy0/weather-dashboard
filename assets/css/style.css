@@ -1,4 +1,4 @@
-.html,
+html,
 body {
   height: 100%;
   font-family: Arial, Helvetica, sans-serif;
@@ -11,4 +11,9 @@ body {
   color: white;
   text-align: center;
   font-weight: bolder;
+}
+
+.form-control {
+  width: 100%;
+  border: 2px solid grey;
 }
