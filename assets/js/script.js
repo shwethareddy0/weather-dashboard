@@ -67,5 +67,6 @@ function getCurrentDateForecast(lon, lat) {
     });
 }
 
-//5-day weather forecast
+//5-day weather forecast section:
+
 //local storage
