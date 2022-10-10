@@ -9,6 +9,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"
+    ></script>
     <title>Weather Dashboard</title>
   </head>
 
@@ -37,12 +41,19 @@
           </button>
         </div>
         <div class="col-lg-8" style="border: 1px solid red">
-          <section class="card border border-dark p-3 my-3">
-            <h2>Atlanta (current-date) Sun-Icon</h2>
-            <p>Temp: 76.62F</p>
-            <p>Wind: 8.43 MPH</p>
-            <p>Humidity: 44 %</p>
+          <section
+            class="card border border-dark p-3 my-3"
+            id="currentDateForecast"
+          >
+            <div class="row">
+              <h2>Atlanta</h2>
+              <img width="30" ; height="30" ; />
+            </div>
+            <p>Temp: <span class="temp"></span>&deg;F</p>
+            <p>Wind: <span class="wind"></span> MPH</p>
+            <p>Humidity: <span class="humidity"></span> %</p>
           </section>
+
           <div class="container-fluid h-75" style="border: 1px solid red">
             <div class="row">
               <h3>5-Day Forecast:</h3>
