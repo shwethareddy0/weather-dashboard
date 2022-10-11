@@ -4,20 +4,15 @@ var APIKey = "4368b1e17c090b1497239e040975304e";
 var searchBoxEl = $("#city-name-input");
 var searchBtnEl = $(".btn-primary");
 
-var day1 = moment().add(1, "days").format("YYYY-MM-DD 12:00:00");
-var day2 = moment().add(2, "days").format("YYYY-MM-DD 12:00:00");
-var day3 = moment().add(3, "days").format("YYYY-MM-DD 12:00:00");
-var day4 = moment().add(4, "days").format("YYYY-MM-DD 12:00:00");
-var day5 = moment().add(5, "days").format("YYYY-MM-DD 12:00:00");
+showCityNamesFromLocalStorage();
 
-console.log(day1);
-console.log(day2);
-console.log(day3);
-console.log(day4);
-console.log(day5);
-
-searchBtnEl.on("click", function () {
+function handleSearchClick() {
   var city = searchBoxEl.val();
+  storeCityName(city);
+  retrieveWeatherData(city);
+}
+
+function retrieveWeatherData(city) {
   var queryURL =
     "http://api.openweathermap.org/data/2.5/weather?q=" +
     city +
@@ -39,7 +34,9 @@ searchBtnEl.on("click", function () {
     .catch(function (error) {
       alert("Unable to connect to Openweathermap");
     });
-});
+}
+
+searchBtnEl.on("click", handleSearchClick);
 
 //create a function to fetch the current date weather forecast
 function getCurrentDateForecast(lon, lat) {
@@ -95,11 +92,11 @@ function getFiveDaysForecast(lon, lat) {
         response.json().then(function (data) {
           console.log(data);
           //---
-          var day1 = moment().add(1, "days").format("YYYY-MM-DD 15:00:00");
-          var day2 = moment().add(2, "days").format("YYYY-MM-DD 15:00:00");
-          var day3 = moment().add(3, "days").format("YYYY-MM-DD 15:00:00");
-          var day4 = moment().add(4, "days").format("YYYY-MM-DD 15:00:00");
-          var day5 = moment().add(5, "days").format("YYYY-MM-DD 15:00:00");
+          var day1 = moment().add(1, "days").format("YYYY-MM-DD 12:00:00");
+          var day2 = moment().add(2, "days").format("YYYY-MM-DD 12:00:00");
+          var day3 = moment().add(3, "days").format("YYYY-MM-DD 12:00:00");
+          var day4 = moment().add(4, "days").format("YYYY-MM-DD 12:00:00");
+          var day5 = moment().add(5, "days").format("YYYY-MM-DD 12:00:00");
           const fiveDaysArr = [5];
           data.list.forEach(function (listItem) {
             if (listItem.dt_txt == day1) {
@@ -136,19 +133,6 @@ function getFiveDaysForecast(lon, lat) {
             $(this).find(".wind").text(fiveDaysArr[index].wind.speed);
             $(this).find(".humidity").text(fiveDaysArr[index].main.humidity);
           });
-
-          /*$("#fiveDaysForecast h4").text(
-            moment(data.list[0].dt_txt).format("(MM/DD/YYYY) ")
-          );
-          $("#fiveDaysForecast img").attr(
-            "src",
-            "http://openweathermap.org/img/wn/" +
-              data.list[0].weather[0].icon +
-              "@2x.png"
-          );
-          $("#fiveDaysForecast span.temp").text(data.list[0].main.temp);
-          $("#fiveDaysForecast span.wind").text(data.list[0].wind.speed);
-          $("#fiveDaysForecast span.humidity").text(data.list[0].main.humidity);*/
         });
       } else {
         alert("Error: " + response.statusText);
@@ -160,3 +144,38 @@ function getFiveDaysForecast(lon, lat) {
 }
 
 //local storage
+
+//read the data localstorage
+function storeCityName(city) {
+  var weatherCities = JSON.parse(localStorage.getItem("weather-Cities"));
+  if (weatherCities == null) {
+    weatherCities = [city];
+    localStorage.setItem("weather-Cities", JSON.stringify(weatherCities));
+  } else {
+    weatherCities.push(city);
+    localStorage.setItem("weather-Cities", JSON.stringify(weatherCities));
+  }
+  showCityNamesFromLocalStorage();
+}
+
+//function for local storage, creating elemet Div and appending it.
+function showCityNamesFromLocalStorage() {
+  var weatherCities = JSON.parse(localStorage.getItem("weather-Cities"));
+  var citiesListEl = $(".citieslist");
+  citiesListEl.empty();
+  if (weatherCities === null) {
+    return;
+  } else {
+    for (var i = 0; i < weatherCities.length; i++) {
+      var cityBtn = $("<button>");
+      cityBtn.text(weatherCities[i]);
+      cityBtn.addClass("btn btn-secondary mb-3 w-100");
+      cityBtn.on("click", handleCityBtnClick);
+      citiesListEl.append(cityBtn);
+    }
+  }
+}
+
+function handleCityBtnClick(event) {
+  retrieveWeatherData(event.currentTarget.innerText);
+}
