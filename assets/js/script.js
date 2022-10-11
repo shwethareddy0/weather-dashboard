@@ -92,11 +92,11 @@ function getFiveDaysForecast(lon, lat) {
         response.json().then(function (data) {
           console.log(data);
           //---
-          var day1 = moment().add(1, "days").format("YYYY-MM-DD 12:00:00");
-          var day2 = moment().add(2, "days").format("YYYY-MM-DD 12:00:00");
-          var day3 = moment().add(3, "days").format("YYYY-MM-DD 12:00:00");
-          var day4 = moment().add(4, "days").format("YYYY-MM-DD 12:00:00");
-          var day5 = moment().add(5, "days").format("YYYY-MM-DD 12:00:00");
+          var day1 = moment().add(1, "days").format("YYYY-MM-DD 15:00:00");
+          var day2 = moment().add(2, "days").format("YYYY-MM-DD 15:00:00");
+          var day3 = moment().add(3, "days").format("YYYY-MM-DD 15:00:00");
+          var day4 = moment().add(4, "days").format("YYYY-MM-DD 15:00:00");
+          var day5 = moment().add(5, "days").format("YYYY-MM-DD 15:00:00");
           const fiveDaysArr = [5];
           data.list.forEach(function (listItem) {
             if (listItem.dt_txt == day1) {
