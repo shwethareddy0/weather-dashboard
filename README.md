@@ -34,15 +34,50 @@ This project can be used in any web browser or on any devices including the mobi
 
 The following image is the demo screenshot of the deployed application.
 
-![Demo screenshot](./images/demo-work-day-scheduler.gif)
+![Demo screenshot](./images/demo-weather-dashboard.gif)
 
 Following is a code snippet of the application page.
 
-Here it refers to - When the page is refreshed,the saved events should persist, which is one of the selection criterias.
+Here the function getCurrentDateForecast() is used to fetch the current date weather forecast for the city.
 
 ```html5
 
-
+function getCurrentDateForecast(lon, lat) {
+  var currentDateQueryURL =
+    "https://api.openweathermap.org/data/2.5/weather?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=" +
+    APIKey +
+    "&units=imperial";
+  fetch(currentDateQueryURL)
+    .then(function (response) {
+      if (response.ok) {
+        console.log(response);
+        response.json().then(function (data) {
+          console.log(data);
+          $("#currentDateForecast h2").text(
+            data.name + moment().format(" (MM/DD/YYYY) ")
+          );
+          $("#currentDateForecast img").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              data.weather[0].icon +
+              "@2x.png"
+          );
+          $("#currentDateForecast span.temp").text(data.main.temp);
+          $("#currentDateForecast span.wind").text(data.wind.speed);
+          $("#currentDateForecast span.humidity").text(data.main.humidity);
+        });
+      } else {
+        alert("Error: " + response.statusText);
+      }
+    })
+    .catch(function (error) {
+      alert("Unable to connect to Openweathermap");
+    });
+}
 
 
 ```
