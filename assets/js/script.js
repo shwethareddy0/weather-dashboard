@@ -1,11 +1,13 @@
-//fetch geo coordinates
+//fetch geo coordinates for the city.
 //Initiate a variable for API key
 var APIKey = "4368b1e17c090b1497239e040975304e";
+
+//Initiate  variables for input text box and search button.
 var searchBoxEl = $("#city-name-input");
 var searchBtnEl = $(".btn-primary");
 
 showCityNamesFromLocalStorage();
-
+//create a function to display the weather forecast of the city when clicked on search button.
 function handleSearchClick() {
   var city = searchBoxEl.val();
   storeCityName(city);
@@ -18,7 +20,7 @@ function retrieveWeatherData(city) {
     city +
     "&appid=" +
     APIKey;
-  fetch(queryURL)
+  fetch(queryURL, { mode: "cors" })
     .then(function (response) {
       if (response.ok) {
         console.log(response);
@@ -48,7 +50,7 @@ function getCurrentDateForecast(lon, lat) {
     "&appid=" +
     APIKey +
     "&units=imperial";
-  fetch(currentDateQueryURL)
+  fetch(currentDateQueryURL, { mode: "cors" })
     .then(function (response) {
       if (response.ok) {
         console.log(response);
@@ -85,7 +87,7 @@ function getFiveDaysForecast(lon, lat) {
     "&appid=" +
     APIKey +
     "&units=imperial";
-  fetch(fiveDaysForecastQueryURL)
+  fetch(fiveDaysForecastQueryURL, { mode: "cors" })
     .then(function (response) {
       if (response.ok) {
         console.log(response);
