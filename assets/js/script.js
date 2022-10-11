@@ -4,6 +4,18 @@ var APIKey = "4368b1e17c090b1497239e040975304e";
 var searchBoxEl = $("#city-name-input");
 var searchBtnEl = $(".btn-primary");
 
+var day1 = moment().add(1, "days").format("YYYY-MM-DD 12:00:00");
+var day2 = moment().add(2, "days").format("YYYY-MM-DD 12:00:00");
+var day3 = moment().add(3, "days").format("YYYY-MM-DD 12:00:00");
+var day4 = moment().add(4, "days").format("YYYY-MM-DD 12:00:00");
+var day5 = moment().add(5, "days").format("YYYY-MM-DD 12:00:00");
+
+console.log(day1);
+console.log(day2);
+console.log(day3);
+console.log(day4);
+console.log(day5);
+
 searchBtnEl.on("click", function () {
   var city = searchBoxEl.val();
   var queryURL =
@@ -66,7 +78,85 @@ function getCurrentDateForecast(lon, lat) {
       alert("Unable to connect to Openweathermap");
     });
 }
+//create a function to fetch the current date weather forecast
+function getFiveDaysForecast(lon, lat) {
+  var fiveDaysForecastQueryURL =
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&appid=" +
+    APIKey +
+    "&units=imperial";
+  fetch(fiveDaysForecastQueryURL)
+    .then(function (response) {
+      if (response.ok) {
+        console.log(response);
+        response.json().then(function (data) {
+          console.log(data);
+          //---
+          var day1 = moment().add(1, "days").format("YYYY-MM-DD 15:00:00");
+          var day2 = moment().add(2, "days").format("YYYY-MM-DD 15:00:00");
+          var day3 = moment().add(3, "days").format("YYYY-MM-DD 15:00:00");
+          var day4 = moment().add(4, "days").format("YYYY-MM-DD 15:00:00");
+          var day5 = moment().add(5, "days").format("YYYY-MM-DD 15:00:00");
+          const fiveDaysArr = [5];
+          data.list.forEach(function (listItem) {
+            if (listItem.dt_txt == day1) {
+              fiveDaysArr[0] = listItem;
+            } else if (listItem.dt_txt == day2) {
+              fiveDaysArr[1] = listItem;
+            } else if (listItem.dt_txt == day3) {
+              fiveDaysArr[2] = listItem;
+            } else if (listItem.dt_txt == day4) {
+              fiveDaysArr[3] = listItem;
+            } else if (listItem.dt_txt == day5) {
+              fiveDaysArr[4] = listItem;
+            }
+          });
+          console.log(fiveDaysArr);
+          //---
+          $("#fiveDaysForecast > div").each(function (index, divEl) {
+            $(this)
+              .find("h4")
+              .text(
+                moment()
+                  .add(index + 1, "days")
+                  .format("MM/DD/YYYY")
+              );
+            $(this)
+              .find("img")
+              .attr(
+                "src",
+                "http://openweathermap.org/img/wn/" +
+                  fiveDaysArr[index].weather[0].icon +
+                  "@2x.png"
+              );
+            $(this).find(".temp").text(fiveDaysArr[index].main.temp);
+            $(this).find(".wind").text(fiveDaysArr[index].wind.speed);
+            $(this).find(".humidity").text(fiveDaysArr[index].main.humidity);
+          });
 
-//5-day weather forecast section:
+          /*$("#fiveDaysForecast h4").text(
+            moment(data.list[0].dt_txt).format("(MM/DD/YYYY) ")
+          );
+          $("#fiveDaysForecast img").attr(
+            "src",
+            "http://openweathermap.org/img/wn/" +
+              data.list[0].weather[0].icon +
+              "@2x.png"
+          );
+          $("#fiveDaysForecast span.temp").text(data.list[0].main.temp);
+          $("#fiveDaysForecast span.wind").text(data.list[0].wind.speed);
+          $("#fiveDaysForecast span.humidity").text(data.list[0].main.humidity);*/
+        });
+      } else {
+        alert("Error: " + response.statusText);
+      }
+    })
+    .catch(function (error) {
+      alert("Unable to connect to Openweathermap");
+    });
+}
 
 //local storage
