@@ -16,11 +16,11 @@ function handleSearchClick() {
 
 function retrieveWeatherData(city) {
   var queryURL =
-    "http://api.openweathermap.org/data/2.5/weather?q=" +
+    "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=" +
     city +
     "&appid=" +
     APIKey;
-  fetch(queryURL, { mode: "cors" })
+  fetch(queryURL)
     .then(function (response) {
       if (response.ok) {
         console.log(response);
@@ -43,14 +43,14 @@ searchBtnEl.on("click", handleSearchClick);
 //create a function to fetch the current date weather forecast
 function getCurrentDateForecast(lon, lat) {
   var currentDateQueryURL =
-    "https://api.openweathermap.org/data/2.5/weather?lat=" +
+    "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?lat=" +
     lat +
     "&lon=" +
     lon +
     "&appid=" +
     APIKey +
     "&units=imperial";
-  fetch(currentDateQueryURL, { mode: "cors" })
+  fetch(currentDateQueryURL)
     .then(function (response) {
       if (response.ok) {
         console.log(response);
@@ -80,14 +80,14 @@ function getCurrentDateForecast(lon, lat) {
 //create a function to fetch the current date weather forecast
 function getFiveDaysForecast(lon, lat) {
   var fiveDaysForecastQueryURL =
-    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
     "&lon=" +
     lon +
     "&appid=" +
     APIKey +
     "&units=imperial";
-  fetch(fiveDaysForecastQueryURL, { mode: "cors" })
+  fetch(fiveDaysForecastQueryURL)
     .then(function (response) {
       if (response.ok) {
         console.log(response);
