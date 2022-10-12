@@ -5,7 +5,10 @@
 Weather Dashboard is an application that allows a user to see the weather outlook for multiple cities
 and plan a trip accordingly. The user is presented with both current weather conditions and a 5-day forecast, when searched for a city. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
 
-Here is the link to the [deployed application]()
+Openweather API will give a cross-origin (CORS) error. I have used the Heroku proxy.
+Please enable the CORS here before accessing the deployed application https://cors-anywhere.herokuapp.com/
+
+Here is the link to the [deployed application](https://shwethareddy0.github.io/weather-dashboard/)
 
 ### Features
 

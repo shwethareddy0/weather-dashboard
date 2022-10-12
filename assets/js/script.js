@@ -7,14 +7,16 @@ var searchBoxEl = $("#city-name-input");
 var searchBtnEl = $(".btn-primary");
 
 showCityNamesFromLocalStorage();
+
 //create a function to display the weather forecast of the city when clicked on search button.
 function handleSearchClick() {
   var city = searchBoxEl.val();
   storeCityName(city);
   retrieveWeatherData(city);
 }
-
+//Retrieve the coordinates from the weather API.
 function retrieveWeatherData(city) {
+  // openweather API will give us a cross-origin (CORS) error. Used the Heroku proxy.
   var queryURL =
     "https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?q=" +
     city +
@@ -40,8 +42,9 @@ function retrieveWeatherData(city) {
 
 searchBtnEl.on("click", handleSearchClick);
 
-//create a function to fetch the current date weather forecast
+//create a function to fetch the current date weather forecast.
 function getCurrentDateForecast(lon, lat) {
+  // openweather API will give us a cross-origin (CORS) error. Used the Heroku proxy.
   var currentDateQueryURL =
     "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/weather?lat=" +
     lat +
@@ -77,8 +80,9 @@ function getCurrentDateForecast(lon, lat) {
       alert("Unable to connect to Openweathermap");
     });
 }
-//create a function to fetch the current date weather forecast
+//create a function to fetch the 5 Days weather forecast.
 function getFiveDaysForecast(lon, lat) {
+  // openweather API will give us a cross-origin (CORS) error. Used the Heroku proxy.
   var fiveDaysForecastQueryURL =
     "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/forecast?lat=" +
     lat +
@@ -93,7 +97,6 @@ function getFiveDaysForecast(lon, lat) {
         console.log(response);
         response.json().then(function (data) {
           console.log(data);
-          //---
           var day1 = moment().add(1, "days").format("YYYY-MM-DD 15:00:00");
           var day2 = moment().add(2, "days").format("YYYY-MM-DD 15:00:00");
           var day3 = moment().add(3, "days").format("YYYY-MM-DD 15:00:00");
@@ -114,7 +117,6 @@ function getFiveDaysForecast(lon, lat) {
             }
           });
           console.log(fiveDaysArr);
-          //---
           $("#fiveDaysForecast > div").each(function (index, divEl) {
             $(this)
               .find("h4")
@@ -177,7 +179,7 @@ function showCityNamesFromLocalStorage() {
     }
   }
 }
-
+//when clicked on city button, the weather forecast data is retrieved for that city.
 function handleCityBtnClick(event) {
   retrieveWeatherData(event.currentTarget.innerText);
 }
